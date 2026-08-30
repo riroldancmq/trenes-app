@@ -58,7 +58,7 @@ Variables de entorno:
 - Vista por **tarjetas** (móvil) o **tabla** (toggle).
 - Semáforo: verde 0-10 días, amarillo 11-20, rojo 21+ (los días y el semáforo se **calculan en el cliente** a partir de `ultima`).
 - Informe TXT descargable/compartible.
-- PWA instalable con **icono propio**, scroll oculto, header con efecto **glass**, fondo con foto `trenes.jpg`.
+- PWA instalable con **icono propio**, scroll oculto, header con efecto **glass**, fondo fijo con foto `trenes.jpg` (implementado con `body::before` para evitar la franja azul al scrollear).
 
 ## Scripts
 
@@ -77,7 +77,8 @@ src/
   main.tsx                  Punto de entrada (React + index.css + App)
   App.tsx                   Pantalla principal: gate de login/visitante,
                             header, stats, vista tarjetas/tabla, informe
-  index.css                 Tokens @theme, fondo (imagen), scroll oculto
+  index.css                 Tokens @theme, fondo (imagen fija via
+                            body::before), scroll oculto
   hooks/
     useAuth.ts              Sesión, rol, signIn/signOut (signIn resuelve
                             usuario → email con usuarioAEmail)
