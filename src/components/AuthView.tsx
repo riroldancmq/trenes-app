@@ -38,7 +38,7 @@ export function AuthView({ onIniciarSesion, onRegistrarse, onEntrarComoVisitante
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-blue-600 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8">
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600 text-white mb-4">
@@ -116,7 +116,7 @@ export function AuthView({ onIniciarSesion, onRegistrarse, onEntrarComoVisitante
 
 export function LoadingScreen({ titulo, detalle }: { titulo: string; detalle: string }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-700 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-blue-600 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center">
         <Train className="w-12 h-12 mx-auto text-indigo-600 mb-4" />
         <h1 className="text-lg font-bold text-slate-800 mb-2">{titulo}</h1>
