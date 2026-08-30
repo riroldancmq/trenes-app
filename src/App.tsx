@@ -14,7 +14,7 @@ import { ESTADO_LABEL } from "./lib/types"
 import { supabaseConfigurado } from "./lib/supabase"
 
 export default function App() {
-  const { session, rol, loading: authLoading, signIn, signUp, signOut } = useAuth()
+  const { session, rol, loading: authLoading, signIn, signOut } = useAuth()
   const [visitante, setVisitante] = useState(false)
   const [vista, setVista] = useState<"cards" | "tabla">("cards")
   const [situacion, setSituacion] = useState<"limpieza" | "reparacion" | null>(null)
@@ -47,7 +47,6 @@ export default function App() {
     return (
       <AuthView
         onIniciarSesion={signIn}
-        onRegistrarse={signUp}
         onEntrarComoVisitante={() => setVisitante(true)}
       />
     )

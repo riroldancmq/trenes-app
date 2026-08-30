@@ -13,6 +13,12 @@ export const supabase = supabaseConfigurado
 
 export type Rol = "admin" | "editor" | null
 
+export const DOMINIO_ADMIN = "trenes.local"
+
+export function usuarioAEmail(usuario: string): string {
+  return usuario.includes("@") ? usuario : `${usuario}@${DOMINIO_ADMIN}`
+}
+
 export async function fetchRol(userId: string): Promise<Rol> {
   const { data } = await supabase
     .from("roles")

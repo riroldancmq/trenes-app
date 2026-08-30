@@ -1,17 +1,15 @@
 import { useState } from "react"
-import { Loader2, LogIn, UserPlus, Train } from "lucide-react"
+import { Loader2, LogIn, ShieldCheck, Train } from "lucide-react"
 import { supabaseConfigurado } from "../lib/supabase"
 
 interface Props {
-  onIniciarSesion: (email: string, password: string) => Promise<string | null>
-  onRegistrarse: (email: string, password: string) => Promise<string | null>
+  onIniciarSesion: (usuario: string, password: string) => Promise<string | null>
   onEntrarComoVisitante: () => void
 }
 
-export function AuthView({ onIniciarSesion, onRegistrarse, onEntrarComoVisitante }: Props) {
-  const [email, setEmail] = useState("")
+export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
+  const [usuario, setUsuario] = useState("")
   const [password, setPassword] = useState("")
-  const [registro, setRegistro] = useState(false)
   const [cargando, setCargando] = useState(false)
   const [msg, setMsg] = useState<string | null>(null)
 
@@ -19,12 +17,8 @@ export function AuthView({ onIniciarSesion, onRegistrarse, onEntrarComoVisitante
     e.preventDefault()
     setCargando(true)
     setMsg(null)
-    const err = registro ? await onRegistrarse(email, password) : await onIniciarSesion(email, password)
-    if (err) {
-      setMsg(registro ? "No se pudo crear la cuenta. Revisá los datos." : "Credenciales incorrectas.")
-    } else if (registro) {
-      setMsg("Cuenta creada. Avisá al administrador para habilitarte como editor.")
-    }
+    const err = await onIniciarSesion(usuario, password)
+    if (err) setMsg("Credenciales incorrectas.")
     setCargando(false)
   }
 
@@ -50,19 +44,19 @@ export function AuthView({ onIniciarSesion, onRegistrarse, onEntrarComoVisitante
 
         <form onSubmit={submit} className="space-y-3">
           <input
-            type="email"
+            type="text"
             required
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            autoComplete="username"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+            placeholder="Usuario"
             className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
           />
           <div className="relative">
             <input
               type="password"
               required
-              autoComplete={registro ? "new-password" : "current-password"}
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Contraseña"
@@ -81,24 +75,17 @@ export function AuthView({ onIniciarSesion, onRegistrarse, onEntrarComoVisitante
             disabled={cargando}
             className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition disabled:opacity-60"
           >
-            {cargando ? <Loader2 className="w-4 h-4 animate-spin" /> : registro ? <UserPlus className="w-4 h-4" /> : <LogIn className="w-4 h-4" />}
-            {registro ? "Crear cuenta" : "Iniciar sesión"}
+            {cargando ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
+            Iniciar sesión
           </button>
         </form>
 
-        <div className="mt-3 flex justify-center">
-          <button
-            onClick={() => {
-              setRegistro((r) => !r)
-              setMsg(null)
-            }}
-            className="text-indigo-600 text-sm font-semibold hover:underline"
-          >
-            {registro ? "Ya tengo cuenta → Iniciar sesión" : "¿No tenés cuenta? Registrate"}
-          </button>
-        </div>
+        <p className="mt-3 text-center text-xs text-slate-400">
+          <ShieldCheck className="w-3.5 h-3.5 inline-block mr-1" />
+          Acceso restringido
+        </p>
 
-        <div className="mt-6 pt-4 border-t border-slate-100">
+        <div className="mt-3 pt-4 border-t border-slate-100">
           <button
             onClick={onEntrarComoVisitante}
             className="w-full py-3 rounded-lg border-2 border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-50 transition"

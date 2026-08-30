@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react"
-import { supabase, fetchRol, type Rol } from "../lib/supabase"
+import { supabase, fetchRol, usuarioAEmail, type Rol } from "../lib/supabase"
 import type { Session } from "@supabase/supabase-js"
 
 export function useAuth() {
@@ -26,14 +26,8 @@ export function useAuth() {
     return () => sub.subscription.unsubscribe()
   }, [cargarRol])
 
-  const signIn = useCallback(async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    return error?.message ?? null
-  }, [])
-
-  const signUp = useCallback(async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({ email, password })
-    if (!error) setRol(null) // rol se setea vía SQL por el admin
+  const signIn = useCallback(async (usuario: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email: usuarioAEmail(usuario), password })
     return error?.message ?? null
   }, [])
 
@@ -41,7 +35,7 @@ export function useAuth() {
     await supabase.auth.signOut()
   }, [])
 
-  return { session, rol, loading, signIn, signUp, signOut }
+  return { session, rol, loading, signIn, signOut }
 }
 
 export type UseAuth = ReturnType<typeof useAuth>
