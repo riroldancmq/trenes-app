@@ -26,7 +26,7 @@ export function FormationCard({ formacion: f, editor, onCambio }: Props) {
   const sem = SEM_STYLE[f.sem]
 
   return (
-    <article className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+    <article className="bg-white/90 rounded-xl shadow-sm border border-slate-200 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200">
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-indigo-600 text-white font-bold text-sm">
