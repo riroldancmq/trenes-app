@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #667eea;
+  --color-brand-strong: #764ba2;
+  --color-verde: #28a745;
+  --color-amarillo: #ffc107;
+  --color-rojo: #dc3545;
+}
+
+@keyframes pulse-rojo {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-pulse-rojo {
+  animation: pulse-rojo 2s infinite;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overscroll-behavior-y: contain;
+  -webkit-font-smoothing: antialiased;
+}
