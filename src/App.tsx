@@ -39,6 +39,9 @@ export default function App() {
   const usuario = session?.user ?? null
   const esEditor = !visitante && !!usuario && rol !== null
 
+  const conDatos = formaciones.filter((f) => f.dias !== null)
+  const sinDatos = formaciones.filter((f) => f.dias === null)
+
   if (authLoading) {
     return <LoadingScreen titulo="Cargando…" detalle="Recuperando tu sesión" />
   }
@@ -141,10 +144,25 @@ export default function App() {
               </div>
 
               {vista === "cards" ? (
-                <div className="grid grid-cols-1 gap-3">
-                  {formaciones.map((f) => (
-                    <FormationCard key={f.id} formacion={f} editor={esEditor} onCambio={(id, c) => void aplicarCambio(id, c)} />
-                  ))}
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 gap-3">
+                    {conDatos.map((f) => (
+                      <FormationCard key={f.id} formacion={f} editor={esEditor} onCambio={(id, c) => void aplicarCambio(id, c)} />
+                    ))}
+                  </div>
+                  {sinDatos.length > 0 && (
+                    <>
+                      <h3 className="px-1 pt-1 text-white/80 font-bold text-xs uppercase tracking-wide flex items-center gap-2">
+                        Fuera de servicio ({sinDatos.length})
+                        <span className="inline-block w-2 h-2 rounded-full bg-slate-400" />
+                      </h3>
+                      <div className="grid grid-cols-1 gap-3">
+                        {sinDatos.map((f) => (
+                          <FormationCard key={f.id} formacion={f} editor={esEditor} onCambio={(id, c) => void aplicarCambio(id, c)} />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               ) : (
                 <FormationTable formaciones={formaciones} editor={esEditor} onCambio={(id, c) => void aplicarCambio(id, c)} />

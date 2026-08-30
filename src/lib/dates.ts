@@ -1,4 +1,4 @@
-import type { SemColor } from "./types"
+import type { Formacion, SemColor } from "./types"
 
 export function parseISO(iso: string | null): Date | null {
   if (!iso) return null
@@ -38,6 +38,16 @@ export function semaforo(dias: number | null): { sem: SemColor; texto: string } 
   if (dias <= 10) return { sem: "verde", texto: "OK" }
   if (dias <= 20) return { sem: "amarillo", texto: "Precaución" }
   return { sem: "rojo", texto: "Crítico" }
+}
+
+export function ordenarPorCriticidad(lista: Formacion[]): Formacion[] {
+  return [...lista].sort((a, b) => {
+    if (a.dias === null && b.dias === null) return a.formacion - b.formacion
+    if (a.dias === null) return 1
+    if (b.dias === null) return -1
+    if (b.dias !== a.dias) return b.dias - a.dias
+    return a.formacion - b.formacion
+  })
 }
 
 export function fechaAhora(): string {

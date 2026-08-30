@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { supabase } from "../lib/supabase"
-import { calcularDias, semaforo } from "../lib/dates"
+import { calcularDias, ordenarPorCriticidad, semaforo } from "../lib/dates"
 import type { CamposEditables, Formacion, FormacionDB } from "../lib/types"
 import { addOp, getOps, removeOp } from "../lib/offline"
 
 function derivar(db: FormacionDB[]): Formacion[] {
-  return db.map((f) => {
-    const dias = calcularDias(f.ultima)
-    return { ...f, dias, sem: semaforo(dias).sem }
-  })
+  return ordenarPorCriticidad(
+    db.map((f) => {
+      const dias = calcularDias(f.ultima)
+      return { ...f, dias, sem: semaforo(dias).sem }
+    }),
+  )
 }
 
 export function useFormaciones() {
@@ -84,7 +86,7 @@ export function useFormaciones() {
             if (existe) {
               return prev.map((f) => (f.id === nuevo.id ? act[0] : f))
             }
-            return [...prev, act[0]].sort((a, b) => a.formacion - b.formacion)
+            return ordenarPorCriticidad([...prev, act[0]])
           })
         },
       )
@@ -101,12 +103,14 @@ export function useFormaciones() {
   const aplicarCambio = useCallback(
     async (formacionId: number, campos: Partial<CamposEditables>) => {
       setFormaciones((prev) =>
-        prev.map((f) => {
-          if (f.id !== formacionId) return f
-          const mezcla = { ...f, ...campos } as FormacionDB
-          const dias = calcularDias(mezcla.ultima)
-          return { ...mezcla, dias, sem: semaforo(dias).sem }
-        }),
+        ordenarPorCriticidad(
+          prev.map((f) => {
+            if (f.id !== formacionId) return f
+            const mezcla = { ...f, ...campos } as FormacionDB
+            const dias = calcularDias(mezcla.ultima)
+            return { ...mezcla, dias, sem: semaforo(dias).sem }
+          }),
+        ),
       )
       await addOp({ formacionId, campos })
       await refreshPendientes()
