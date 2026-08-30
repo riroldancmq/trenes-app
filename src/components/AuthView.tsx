@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Loader2, LogIn, ShieldCheck, Train } from "lucide-react"
+import { Loader2, LogIn, ShieldCheck } from "lucide-react"
 import { supabaseConfigurado } from "../lib/supabase"
 
 interface Props {
@@ -35,8 +35,8 @@ export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600 text-white mb-4">
-            <Train className="w-8 h-8" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white overflow-hidden mb-4 shadow">
+            <img src="/icons/icon-192.png" alt="Trenes" className="w-12 h-12 rounded-xl" />
           </div>
           <h1 className="text-xl font-bold text-slate-800">Registro de demoras</h1>
           <p className="text-slate-500 text-sm">Lavado de formaciones</p>
@@ -105,7 +105,7 @@ export function LoadingScreen({ titulo, detalle }: { titulo: string; detalle: st
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center">
-        <Train className="w-12 h-12 mx-auto text-indigo-600 mb-4" />
+        <img src="/icons/icon-192.png" alt="Trenes" className="w-14 h-14 mx-auto rounded-2xl mb-4" />
         <h1 className="text-lg font-bold text-slate-800 mb-2">{titulo}</h1>
         <p className="text-slate-500 text-sm">{detalle}</p>
       </div>

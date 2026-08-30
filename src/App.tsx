@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { FileDown, LayoutGrid, LogOut, Table2, Train } from "lucide-react"
+import { FileDown, LayoutGrid, LogOut, Table2 } from "lucide-react"
 import { AuthView, LoadingScreen } from "./components/AuthView"
 import { StatsCards } from "./components/StatsCards"
 import { FormationCard } from "./components/FormationCard"
@@ -83,11 +83,11 @@ export default function App() {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <div className="max-w-4xl mx-auto px-3 py-4 pb-10">
-        <header className="bg-white/10 backdrop-blur rounded-2xl p-4 mb-4 text-white">
+        <header className="bg-black/25 backdrop-blur rounded-2xl p-4 mb-4 text-white">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-3">
-              <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white/20">
-                <Train className="w-6 h-6" />
+              <span className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-white/20 overflow-hidden">
+                <img src="/icons/icon-192.png" alt="Trenes" className="w-9 h-9 rounded-lg" />
               </span>
               <div>
                 <h1 className="font-bold leading-tight text-[15px]">Registro de demoras</h1>

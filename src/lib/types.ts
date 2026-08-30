@@ -6,6 +6,7 @@ export interface FormacionDB {
   anteultima: string | null
   ultima: string | null
   estado: Estado
+  descripcion: string | null
   updated_at: string
 }
 
@@ -16,7 +17,7 @@ export interface Formacion extends FormacionDB {
   sem: SemColor
 }
 
-export type CamposEditables = Pick<FormacionDB, "anteultima" | "ultima" | "estado">
+export type CamposEditables = Pick<FormacionDB, "anteultima" | "ultima" | "estado" | "descripcion">
 
 export const ESTADOS: { value: Estado; label: string }[] = [
   { value: "limpieza", label: "Limpieza" },
