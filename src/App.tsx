@@ -60,7 +60,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-blue-600 overflow-x-hidden">
+    <div className="min-h-screen bg-blue-800 overflow-x-hidden">
       <div className="max-w-4xl mx-auto px-3 py-4 pb-10">
         <header className="bg-white/10 backdrop-blur rounded-2xl p-4 mb-4 text-white">
           <div className="flex items-center justify-between gap-2">
