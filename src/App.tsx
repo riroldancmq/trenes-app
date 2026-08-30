@@ -52,6 +52,11 @@ export default function App() {
     entrarComoVisitante()
   }
 
+  const salirDelModoVisitante = () => {
+    localStorage.removeItem(STORAGE_VISITANTE)
+    setVisitante(false)
+  }
+
   const conDatos = formaciones.filter((f) => f.dias !== null)
   const sinDatos = formaciones.filter((f) => f.dias === null)
 
@@ -89,9 +94,9 @@ export default function App() {
                 <p className="text-white/80 text-xs">Lavado de formaciones</p>
               </div>
             </div>
-            {usuario && (
+            {(usuario || esVisitante) && (
               <button
-                onClick={salirYVerComoVisitante}
+                onClick={usuario ? salirYVerComoVisitante : salirDelModoVisitante}
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-sm font-semibold cursor-pointer"
               >
                 <LogOut className="w-4 h-4" /> Salir
