@@ -13,9 +13,11 @@ import { compartirInforme, generarInforme } from "./lib/report"
 import { ESTADO_LABEL } from "./lib/types"
 import { supabaseConfigurado } from "./lib/supabase"
 
+const STORAGE_VISITANTE = "trenes-app.visitante"
+
 export default function App() {
   const { session, rol, loading: authLoading, signIn, signOut } = useAuth()
-  const [visitante, setVisitante] = useState(false)
+  const [visitante, setVisitante] = useState(() => localStorage.getItem(STORAGE_VISITANTE) === "1")
   const [vista, setVista] = useState<"cards" | "tabla">("cards")
   const [situacion, setSituacion] = useState<"limpieza" | "reparacion" | null>(null)
   const [ahora, setAhora] = useState(fechaAhora())
@@ -37,7 +39,18 @@ export default function App() {
   }, [])
 
   const usuario = session?.user ?? null
-  const esEditor = !visitante && !!usuario && rol !== null
+  const esVisitante = visitante && !usuario
+  const esEditor = !!usuario && rol !== null
+
+  const entrarComoVisitante = () => {
+    localStorage.setItem(STORAGE_VISITANTE, "1")
+    setVisitante(true)
+  }
+
+  const salirYVerComoVisitante = () => {
+    void signOut()
+    entrarComoVisitante()
+  }
 
   const conDatos = formaciones.filter((f) => f.dias !== null)
   const sinDatos = formaciones.filter((f) => f.dias === null)
@@ -50,7 +63,7 @@ export default function App() {
     return (
       <AuthView
         onIniciarSesion={signIn}
-        onEntrarComoVisitante={() => setVisitante(true)}
+        onEntrarComoVisitante={entrarComoVisitante}
       />
     )
   }
@@ -78,10 +91,7 @@ export default function App() {
             </div>
             {usuario && (
               <button
-                onClick={() => {
-                  void signOut()
-                  setVisitante(true)
-                }}
+                onClick={salirYVerComoVisitante}
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-sm font-semibold cursor-pointer"
               >
                 <LogOut className="w-4 h-4" /> Salir
@@ -91,7 +101,7 @@ export default function App() {
 
           <div className="flex items-center gap-2 mt-3 flex-wrap">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/20">
-              {esEditor ? "✏️ MODO EDICIÓN" : visitante ? "👁️ VISITANTE" : "👁️ SOLO LECTURA"}
+              {esEditor ? "✏️ MODO EDICIÓN" : esVisitante ? "👁️ VISITANTE" : "👁️ SOLO LECTURA"}
             </span>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/20">
               {usuario?.email}
@@ -170,7 +180,7 @@ export default function App() {
             </>
           )}
 
-          {!esEditor && !visitante && (
+          {!esEditor && !esVisitante && (
             <div className="rounded-xl bg-amber-100 border border-amber-200 text-amber-800 px-4 py-3 text-sm">
               No tenés permisos de edición ({rol === null ? "rol sin asignar" : "solo lectura"}). Hablá con el administrador.
             </div>
