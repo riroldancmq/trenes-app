@@ -19,7 +19,7 @@ function Card({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-3 rounded-xl ${bg} p-4 flex-1 min-w-[140px] text-left shadow-sm ${onClick ? "cursor-pointer active:scale-[0.98] transition" : "cursor-default"}`}
+      className={`flex items-center gap-2 rounded-xl ${bg} p-3 min-w-0 flex-1 text-left shadow-sm ${onClick ? "cursor-pointer active:scale-[0.98] transition" : "cursor-default"}`}
     >
       <span className={color}>{icon}</span>
       <span>
