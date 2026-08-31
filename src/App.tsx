@@ -77,7 +77,7 @@ export default function App() {
     const texto = generarInforme(formaciones)
     setTipoInforme(tipo)
     const nombre = `informe-demoras-${new Date().toISOString().slice(0, 10)}`
-    compartirInforme(texto, nombre).then(() => setTipoInforme(null))
+    void compartirInforme(texto, nombre).finally(() => setTipoInforme(null))
   }
 
   return (
@@ -127,13 +127,15 @@ export default function App() {
               {vista === "cards" ? <Table2 className="w-4 h-4" /> : <LayoutGrid className="w-4 h-4" />}
               Vista {vista === "cards" ? "tabla" : "tarjetas"}
             </button>
-            <button
-              onClick={() => informe("txt")}
-              disabled={tipoInforme !== null}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/15 hover:bg-white/25 transition text-xs font-semibold cursor-pointer disabled:opacity-60"
-            >
-              <FileDown className="w-4 h-4" /> {tipoInforme ? "Generando…" : "Informe TXT"}
-            </button>
+            {esEditor && (
+              <button
+                onClick={() => informe("txt")}
+                disabled={tipoInforme !== null}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/15 hover:bg-white/25 transition text-xs font-semibold cursor-pointer disabled:opacity-60"
+              >
+                <FileDown className="w-4 h-4" /> {tipoInforme ? "Generando…" : "Informe TXT"}
+              </button>
+            )}
           </div>
         </header>
 

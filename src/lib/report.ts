@@ -56,22 +56,42 @@ export function generarInforme(formaciones: Formacion[]): string {
 }
 
 export async function compartirInforme(texto: string, nombre: string): Promise<boolean> {
-  const file = new File([texto], `${nombre}.txt`, { type: "text/plain" })
+  try {
+    const file = new File([texto], `${nombre}.txt`, { type: "text/plain" })
 
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], title: "Informe de demoras" })
+        return true
+      } catch {
+        // cancelado o falla → cae a descarga
+      }
+    }
+
+    const url = URL.createObjectURL(file)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `${nombre}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+    return true
+  } catch {
+    // Si algo falla (ej. entorno sin soporte), generamos la descarga por fallback con datos URI
     try {
-      await navigator.share({ files: [file], title: "Informe de demoras" })
+      const blob = new Blob([`\uFEFF${texto}`], { type: "text/plain;charset=utf-8" })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = `${nombre}.txt`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
       return true
     } catch {
-      // cancelado o falla → cae a descarga
+      return false
     }
   }
-
-  const url = URL.createObjectURL(file)
-  const a = document.createElement("a")
-  a.href = url
-  a.download = `${nombre}.txt`
-  a.click()
-  URL.revokeObjectURL(url)
-  return true
 }
