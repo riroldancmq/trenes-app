@@ -81,7 +81,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden relative z-10">
       <div className="max-w-4xl mx-auto px-3 py-4 pb-10">
         <header className="bg-black/25 backdrop-blur rounded-2xl p-4 mb-4 text-white">
           <div className="flex items-center justify-between gap-2">
