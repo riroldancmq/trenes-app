@@ -106,7 +106,7 @@ export default function App() {
 
           <div className="flex items-center gap-2 mt-3 flex-wrap">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/20">
-              {esEditor ? "✏️ MODO EDICIÓN" : esVisitante ? "👁️ VISITANTE" : "👁️ SOLO LECTURA"}
+              {esEditor ? "✏️ MODO EDICIÓN" : esVisitante ? "👁️ EMPLEADO" : "👁️ SOLO LECTURA"}
             </span>
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/20">
               {usuario?.email}

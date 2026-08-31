@@ -90,10 +90,10 @@ export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
             onClick={onEntrarComoVisitante}
             className="w-full py-3 rounded-lg border-2 border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-50 transition"
           >
-            Ver como visitante
+            Ver como empleado
           </button>
           <p className="text-xs text-slate-400 text-center mt-3">
-            Los visitantes solo pueden leer. Para editar necesitás iniciar sesión.
+            Los empleados solo pueden leer. Para editar necesitás iniciar sesión.
           </p>
         </div>
       </div>
