@@ -26,7 +26,7 @@ export function FormationTable({ formaciones, editor, onCambio }: Props) {
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-indigo-600 text-white text-left">
+          <tr className="bg-brand text-white text-left">
             <th className="px-3 py-3 font-semibold text-xs uppercase tracking-wide">Formación</th>
             <th className="px-3 py-3 font-semibold text-xs uppercase tracking-wide">Anteúltima</th>
             <th className="px-3 py-3 font-semibold text-xs uppercase tracking-wide">Última</th>
@@ -47,7 +47,7 @@ export function FormationTable({ formaciones, editor, onCambio }: Props) {
                       type="date"
                       value={toInputValue(f.anteultima)}
                       onChange={(e) => onCambio(f.id, { anteultima: e.target.value || null })}
-                      className="px-2 py-1 rounded border border-slate-200 text-sm focus:border-indigo-500 outline-none"
+                      className="px-2 py-1 rounded border border-slate-200 text-sm focus:border-brand outline-none"
                     />
                   ) : (
                     <span className="text-slate-600">{toInputValue(f.anteultima) ? toInputValue(f.anteultima) : "—"}</span>
@@ -59,7 +59,7 @@ export function FormationTable({ formaciones, editor, onCambio }: Props) {
                       type="date"
                       value={toInputValue(f.ultima)}
                       onChange={(e) => onCambio(f.id, { ultima: e.target.value || null })}
-                      className="px-2 py-1 rounded border border-slate-200 text-sm focus:border-indigo-500 outline-none"
+                      className="px-2 py-1 rounded border border-slate-200 text-sm focus:border-brand outline-none"
                     />
                   ) : (
                     <span className="text-slate-600">{toInputValue(f.ultima) || "—"}</span>
@@ -80,7 +80,7 @@ export function FormationTable({ formaciones, editor, onCambio }: Props) {
                     <select
                       value={f.estado}
                       onChange={(e) => onCambio(f.id, { estado: e.target.value as Estado })}
-                      className="px-2 py-1 rounded border border-slate-200 text-sm font-semibold bg-white focus:border-indigo-500 outline-none"
+                      className="px-2 py-1 rounded border border-slate-200 text-sm font-semibold bg-white focus:border-brand outline-none"
                     >
                       {ESTADOS.map((e) => (
                         <option key={e.value} value={e.value}>

@@ -18,7 +18,7 @@ const ESTADO_STYLE: Record<Estado, string> = {
 }
 
 const INPUT_CLASS =
-  "flex-1 px-2 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
+  "flex-1 px-2 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:border-brand focus:ring-2 focus:ring-brand-mid outline-none"
 
 interface Props {
   formacion: Formacion
@@ -70,7 +70,7 @@ export function FormationCard({ formacion: f, editor, onCambio }: Props) {
     <article className="bg-slate-100/90 rounded-xl shadow-sm border border-slate-200 overflow-hidden">
       <div className="flex items-center justify-between px-4 py-3 bg-slate-200/40 border-b border-slate-200">
         <div className="flex items-center gap-3">
-          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-indigo-600 text-white font-bold text-sm">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-brand text-white font-bold text-sm">
             {f.formacion}
           </span>
           <div>
@@ -132,7 +132,7 @@ export function FormationCard({ formacion: f, editor, onCambio }: Props) {
               onChange={(e) => setBorrador((b) => ({ ...b, descripcion: e.target.value }))}
               rows={2}
               placeholder="Agregá un detalle, observación o descripción…"
-              className="w-full px-2 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none resize-none"
+              className="w-full px-2 py-1.5 rounded-lg border border-slate-200 text-sm text-slate-700 focus:border-brand focus:ring-2 focus:ring-brand-mid outline-none resize-none"
             />
           ) : (
             <span className={`text-sm ${f.descripcion ? "text-slate-700" : "text-slate-400 italic"}`}>
@@ -147,7 +147,7 @@ export function FormationCard({ formacion: f, editor, onCambio }: Props) {
             <select
               value={borrador.estado}
               onChange={(e) => setBorrador((b) => ({ ...b, estado: e.target.value as Estado }))}
-              className="flex-1 px-2 py-1.5 rounded-lg border border-slate-200 text-sm font-semibold bg-white focus:border-indigo-500 outline-none"
+              className="flex-1 px-2 py-1.5 rounded-lg border border-slate-200 text-sm font-semibold bg-white focus:border-brand outline-none"
             >
               {ESTADOS.map((e) => (
                 <option key={e.value} value={e.value}>
@@ -167,7 +167,7 @@ export function FormationCard({ formacion: f, editor, onCambio }: Props) {
         <div className="px-4 py-2.5 border-t border-slate-200">
           <button
             onClick={entrarEdicion}
-            className="inline-flex items-center gap-1.5 w-full justify-center px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 w-full justify-center px-3 py-2 rounded-lg bg-brand text-white text-sm font-semibold hover:bg-brand-strong transition cursor-pointer"
           >
             <Pencil className="w-4 h-4" /> Editar
           </button>
@@ -190,7 +190,7 @@ export function FormationCard({ formacion: f, editor, onCambio }: Props) {
           </button>
           <button
             onClick={guardar}
-            className="inline-flex items-center gap-1.5 flex-1 justify-center px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold hover:bg-indigo-700 transition cursor-pointer"
+            className="inline-flex items-center gap-1.5 flex-1 justify-center px-3 py-2 rounded-lg bg-brand text-white text-sm font-semibold hover:bg-brand-strong transition cursor-pointer"
           >
             <Save className="w-4 h-4" /> Guardar
           </button>

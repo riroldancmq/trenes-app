@@ -50,7 +50,7 @@ export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
             placeholder="Usuario"
-            className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
+            className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-brand focus:ring-2 focus:ring-brand-mid outline-none transition"
           />
           <div className="relative">
             <input
@@ -60,7 +60,7 @@ export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Contraseña"
-              className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition"
+              className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-brand focus:ring-2 focus:ring-brand-mid outline-none transition"
             />
           </div>
 
@@ -73,7 +73,7 @@ export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
           <button
             type="submit"
             disabled={cargando}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-brand text-white font-semibold hover:bg-brand-strong transition disabled:opacity-60"
           >
             {cargando ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
             Iniciar sesión
@@ -88,7 +88,7 @@ export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
         <div className="mt-3 pt-4 border-t border-slate-100">
           <button
             onClick={onEntrarComoVisitante}
-            className="w-full py-3 rounded-lg border-2 border-indigo-600 text-indigo-600 font-semibold hover:bg-indigo-50 transition"
+            className="w-full py-3 rounded-lg border-2 border-brand text-brand font-semibold hover:bg-brand-soft transition"
           >
             Ver como empleado
           </button>

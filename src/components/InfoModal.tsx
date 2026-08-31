@@ -22,7 +22,7 @@ export function InfoModal({ abierto, estado, formaciones, onCerrar }: Props) {
         className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-5 py-4 bg-indigo-600 text-white">
+        <div className="flex items-center justify-between px-5 py-4 bg-brand text-white">
           <h3 className="flex items-center gap-2 font-bold">
             {esLimpieza ? <Factory className="w-5 h-5" /> : <Wrench className="w-5 h-5" />}
             Formaciones en {esLimpieza ? "Limpieza" : "Reparación"}
@@ -40,7 +40,7 @@ export function InfoModal({ abierto, estado, formaciones, onCerrar }: Props) {
               {lista.map((f) => (
                 <li key={f.id} className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-sm">
+                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-brand-soft text-brand-strong font-bold text-sm">
                       {f.formacion}
                     </span>
                     <div className="text-sm">
