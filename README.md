@@ -3,7 +3,7 @@
 Webapp móvil (PWA) para registrar demoras de lavado de formaciones. React + Vite + Tailwind, backend en Supabase (PostgreSQL + Auth + Realtime), desplegado en Vercel.
 
 - **Admin**: edita fechas y estado de las formaciones. Login con **usuario + contraseña** (no hay registro público).
-- **Visitante**: acceso en solo lectura, sin login; los cambios del admin se ven en vivo.
+- **Empleado**: acceso en solo lectura, sin login; los cambios del admin se ven en vivo. No tiene acceso al informe TXT.
 
 ## Puesta en marcha
 
@@ -48,17 +48,18 @@ Variables de entorno:
 
 ## Funcionalidades
 
-- **Login solo admin** (usuario/contraseña) y **"Ver como visitante"** en solo lectura.
-- El modo visitante **persiste al recargar** (se guarda en `localStorage`) y tiene su botón **Salir**.
+- **Login solo admin** (usuario/contraseña) y **"Ver como empleado"** en solo lectura.
+- El modo empleado **persiste al recargar** (se guarda en `localStorage`) y tiene su botón **Salir**.
 - **Edición del admin con botones**: la card tiene modo edición (fechas, estado y **descripción**) con botones **Editar / Guardar / Eliminar**. Los cambios se persisten solo al tocar **Guardar** (optimista → IndexedDB → Sync a Supabase). Sin conexión queda encolado y sincroniza al reconectar.
 - **Eliminar** limpia el contenido de la formación (fechas, estado a `fuera-servicio` y descripción); no borra la fila.
-- **Descripción/detalle** editable por admin; el **visitante** la ve (solo lectura) arriba de la línea de situación.
-- **Realtime**: visitantes y admin ven los cambios en vivo entre dispositivos.
+- **Descripción/detalle** editable por admin; el **empleado** la ve (solo lectura) arriba de la línea de situación.
+- **Realtime**: empleados y admin ven los cambios en vivo entre dispositivos.
 - **Orden por criticidad**: más días de demora arriba; las "fuera de servicio" (sin datos) abajo, separadas en su grupo.
 - Vista por **tarjetas** (móvil) o **tabla** (toggle).
 - Semáforo: verde 0-10 días, amarillo 11-20, rojo 21+ (los días y el semáforo se **calculan en el cliente** a partir de `ultima`).
-- Informe TXT descargable/compartible.
-- PWA instalable con **icono propio**, scroll oculto, header con efecto **glass**, fondo fijo con foto `trenes.jpg` (implementado con `body::before` + `100dvh` para seguir el viewport móvil y evitar la franja azul al scrollear).
+- Informe TXT descargable/compartible (**solo admin**). Compatible con `navigator.share` y fallback a descarga con BOM UTF-8 (acentos correctos).
+- Color de marca **`#0952E2`** (azul) en toda la UI.
+- PWA instalable con **icono propio**, scroll oculto, header con efecto **glass** y fondo fijo con foto `trenes.jpg` (configurado con `background-image` + `background-attachment: fixed` en `body`, para que no se redimensione al scrollear). Barra de estado del teléfono en tono oscuro (`#0a0e1a`).
 
 ## Scripts
 
@@ -75,10 +76,10 @@ Variables de entorno:
 ```
 src/
   main.tsx                  Punto de entrada (React + index.css + App)
-  App.tsx                   Pantalla principal: gate de login/visitante,
+  App.tsx                   Pantalla principal: gate de login/empleado,
                             header, stats, vista tarjetas/tabla, informe
-  index.css                 Tokens @theme, fondo (imagen fija via
-                            body::before + 100dvh), scroll oculto
+  index.css                 Tokens @theme (marca #0952E2), fondo fijo con
+                            background-attachment: fixed, scroll oculto
   hooks/
     useAuth.ts              Sesión, rol, signIn/signOut (signIn resuelve
                             usuario → email con usuarioAEmail)
@@ -92,9 +93,9 @@ src/
     dates.ts                parse/fmt de fechas, calcularDias, semaforo,
                             ordenarPorCriticidad
     offline.ts              Cola de operaciones pendientes en IndexedDB
-    report.ts               generaInforme() y compartirInforme() (TXT)
+    report.ts               generaInforme() y compartirInforme() (TXT, solo admin)
   components/
-    AuthView.tsx            Login usuario/contraseña, "Ver como visitante",
+    AuthView.tsx            Login usuario/contraseña, "Ver como empleado",
                             LoadingScreen
     FormationCard.tsx       Tarjeta de formación (gris claro translúcido),
                             modo edición, descripción y botones Editar/
@@ -122,8 +123,8 @@ supabase/migrations/
 
 1. **Admin edita** una tarjeta → entra en modo edición y toca **Guardar** → `FormationCard.guardar` → `onCambio` → `aplicarCambio` (`useFormaciones.ts`). **Eliminar** llama a `aplicarCambio` con fechas/estado/descripción en blanco.
 2. `aplicarCambio` actualiza el estado al instante, lo encola en **IndexedDB** (`offline.ts`) y, si hay red, hace `.update()` a Supabase.
-3. Supabase dispara **Realtime** → todos los clientes suscritos (admin y visitantes) reciben el payload y rederivan `dias`/semáforo.
-4. **Visita como visitante**: el `select` está abierto a todos (`RLS using(true)`); el `update/insert/delete` requiere rol `admin`/`editor` (`public.es_editor()`). El trigger `log_cambio` audita los cambios en `historial`.
+3. Supabase dispara **Realtime** → todos los clientes suscritos (admin y empleados) reciben el payload y rederivan `dias`/semáforo.
+4. **Vista como empleado**: el `select` está abierto a todos (`RLS using(true)`); el `update/insert/delete` requiere rol `admin`/`editor` (`public.es_editor()`). El trigger `log_cambio` audita los cambios en `historial`.
 
 ### Base de datos
 
@@ -135,3 +136,4 @@ supabase/migrations/
 
 - `dias`/semáforo se recalculan al cargar, con cada evento Realtime y al editar; no hay aún un reloj que los actualice solo al pasar la medianoche (pendiente).
 - Al regenerar la base, `0002_actualizar_datos.sql` quedó como respaldo: el camino actual es `npm run sync` con `backuotrenes.json`.
+- El color de la barra de estado del teléfono (theme color) se lee al instalar la PWA; si ya está instalada y se cambió, puede requerir desinstalar y reinstalar para verlo.
