@@ -1,10 +1,10 @@
-import { X, Factory, Wrench } from "lucide-react"
+import { X, Factory, Wrench, XCircle } from "lucide-react"
 import { fmtDMY } from "../lib/dates"
 import type { Formacion } from "../lib/types"
 
 interface Props {
   abierto: boolean
-  estado: "limpieza" | "reparacion"
+  estado: "limpieza" | "reparacion" | "fuera-servicio"
   formaciones: Formacion[]
   onCerrar: () => void
 }
@@ -14,7 +14,13 @@ export function InfoModal({ abierto, estado, formaciones, onCerrar }: Props) {
   const lista = formaciones
     .filter((f) => f.estado === estado)
     .sort((a, b) => (b.dias ?? 0) - (a.dias ?? 0))
-  const esLimpieza = estado === "limpieza"
+  const titulo =
+    estado === "limpieza"
+      ? "Formaciones en Limpieza"
+      : estado === "reparacion"
+        ? "Formaciones en Reparación"
+        : "Formaciones en Fuera de servicio"
+  const Icono = estado === "limpieza" ? Factory : estado === "reparacion" ? Wrench : XCircle
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={onCerrar}>
@@ -24,8 +30,8 @@ export function InfoModal({ abierto, estado, formaciones, onCerrar }: Props) {
       >
         <div className="flex items-center justify-between px-5 py-4 bg-brand text-white">
           <h3 className="flex items-center gap-2 font-bold">
-            {esLimpieza ? <Factory className="w-5 h-5" /> : <Wrench className="w-5 h-5" />}
-            Formaciones en {esLimpieza ? "Limpieza" : "Reparación"}
+            <Icono className="w-5 h-5" />
+            {titulo}
           </h3>
           <button onClick={onCerrar} className="hover:bg-white/20 rounded-lg p-1.5 transition cursor-pointer" aria-label="Cerrar">
             <X className="w-5 h-5" />

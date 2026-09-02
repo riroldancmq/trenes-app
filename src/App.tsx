@@ -147,7 +147,7 @@ export default function App() {
           )}
 
           {!loading && formaciones.length > 0 && (
-            <StatsCards formaciones={formaciones} onVerSituacion={(e) => setSituacion(e as "limpieza" | "reparacion")} />
+            <StatsCards formaciones={formaciones} onVerSituacion={(e) => setSituacion(e as "limpieza" | "reparacion" | "fuera-servicio")} />
           )}
 
           {loading ? (

@@ -48,7 +48,7 @@ export function StatsCards({ formaciones, onVerSituacion }: { formaciones: Forma
       <div className="grid grid-cols-3 gap-3">
         <Card icon={<Factory className="w-6 h-6" />} bg="bg-cyan-50" color="text-cyan-600" valor={limpieza} label="Limpieza" onClick={() => onVerSituacion("limpieza")} />
         <Card icon={<Wrench className="w-6 h-6" />} bg="bg-red-50" color="text-rose-600" valor={reparacion} label="Reparación" onClick={() => onVerSituacion("reparacion")} />
-        <Card icon={<XCircle className="w-6 h-6" />} bg="bg-slate-100" color="text-slate-500" valor={fuera} label="Fuera de servicio" />
+        <Card icon={<XCircle className="w-6 h-6" />} bg="bg-slate-100" color="text-slate-500" valor={fuera} label="Fuera de servicio" onClick={() => onVerSituacion("fuera-servicio")} />
       </div>
     </div>
   )
