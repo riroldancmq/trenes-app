@@ -54,6 +54,7 @@ Variables de entorno:
 - **Eliminar** limpia el contenido de la formación (fechas, estado a `fuera-servicio` y descripción); no borra la fila.
 - **Descripción/detalle** editable por admin; el **empleado** la ve (solo lectura) arriba de la línea de situación.
 - **Realtime**: empleados y admin ven los cambios en vivo entre dispositivos.
+- **Tarjetas informativas clicables**: los botones de `Limpieza`, `Reparación` y `Fuera de servicio` abren una ventana flotante (modal) que enumera las formaciones en ese estado (número, fechas y días de demora), útil para que los empleados sepan cuáles son. Las clicables se distinguen visualmente de las que solo muestran contador con un borde de marca y una sombra más marcada.
 - **Orden por criticidad**: más días de demora arriba; las "fuera de servicio" (sin datos) abajo, separadas en su grupo.
 - Vista por **tarjetas** (móvil) o **tabla** (toggle).
 - Semáforo: verde 0-10 días, amarillo 11-20, rojo 21+ (los días y el semáforo se **calculan en el cliente** a partir de `ultima`).
@@ -101,8 +102,10 @@ src/
                             modo edición, descripción y botones Editar/
                             Eliminar/Guardar
     FormationTable.tsx      Vista tabla
-    StatsCards.tsx          Contadores verdes/amarillos/rojos y por estado
-    InfoModal.tsx           Listado de formaciones en Limpieza/Reparación
+    StatsCards.tsx          Contadores verdes/amarillos/rojos y por estado;
+                            las tarjetas clicables llevan borde + sombra
+    InfoModal.tsx           Modal con el listado de formaciones en
+                            Limpieza/Reparación/Fuera de servicio
     SyncBadge.tsx           Indicador online / pendientes / sincronizando
 public/
   trenes.jpg                Imagen de fondo (redimensionada desde
