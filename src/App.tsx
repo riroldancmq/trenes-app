@@ -19,7 +19,7 @@ export default function App() {
   const { session, rol, loading: authLoading, signIn, signOut } = useAuth()
   const [visitante, setVisitante] = useState(() => localStorage.getItem(STORAGE_VISITANTE) === "1")
   const [vista, setVista] = useState<"cards" | "tabla">("cards")
-  const [situacion, setSituacion] = useState<"limpieza" | "reparacion" | null>(null)
+  const [situacion, setSituacion] = useState<"limpieza" | "reparacion" | "fuera-servicio" | null>(null)
   const [ahora, setAhora] = useState(fechaAhora())
   const [tipoInforme, setTipoInforme] = useState<string | null>(null)
 
