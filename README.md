@@ -57,7 +57,7 @@ Variables de entorno:
 - **Tarjetas informativas clicables**: los botones de `Limpieza`, `Reparación` y `Fuera de servicio` abren una ventana flotante (modal) que enumera las formaciones en ese estado (número, fechas y días de demora), útil para que los empleados sepan cuáles son. Las clicables se distinguen visualmente de las que solo muestran contador con un borde de marca y una sombra más marcada.
 - **Orden por criticidad**: más días de demora arriba; las "fuera de servicio" (sin datos) abajo, separadas en su grupo.
 - Vista por **tarjetas** (móvil) o **tabla** (toggle).
-- Semáforo: verde 0-10 días, amarillo 11-20, rojo 21+ (los días y el semáforo se **calculan en el cliente** a partir de `ultima`).
+- Semáforo: verde 0-10 días, amarillo 11-20, rojo 21+ (los días y el semáforo se **calculan en el cliente** a partir de `ultima`). El día de ingreso cuenta **0 días** y se muestra como **"Hoy"** (la formación que entró ayer muestra **1 día**). Los días se calculan con **UTC** para que la fecha de ingreso (`ultima`) no se desplace por la zona horaria del dispositivo.
 - Informe TXT descargable/compartible (**solo admin**). Compatible con `navigator.share` y fallback a descarga con BOM UTF-8 (acentos correctos).
 - Color de marca **`#0952E2`** (azul) en toda la UI.
 - PWA instalable con **icono propio**, scroll oculto, header con efecto **glass** y fondo fijo con foto `trenes.jpg` (configurado con `background-image` + `background-attachment: fixed` en `body`, para que no se redimensione al scrollear). Barra de estado del teléfono en tono oscuro (`#0a0e1a`).
@@ -138,5 +138,6 @@ supabase/migrations/
 ### Notas / pendientes
 
 - `dias`/semáforo se recalculan al cargar, con cada evento Realtime y al editar; no hay aún un reloj que los actualice solo al pasar la medianoche (pendiente).
+- Conteo de días: se toma desde `ultima` (fecha de ingreso). El día de ingreso es **0 días** (se muestra "Hoy"); días `1`, `2`, `3`… indican cuántos días lleva en el taller. `anteultima` es solo referencia y no participa del cálculo. Se corrigió un bug de zona horaria que desplazaba la fecha de ingreso un día atrás (el cálculo ahora es en UTC).
 - Al regenerar la base, `0002_actualizar_datos.sql` quedó como respaldo: el camino actual es `npm run sync` con `backuotrenes.json`.
 - El color de la barra de estado del teléfono (theme color) se lee al instalar la PWA; si ya está instalada y se cambió, puede requerir desinstalar y reinstalar para verlo.

@@ -40,7 +40,7 @@ export function generarInforme(formaciones: Formacion[]): string {
       const n = String(f.formacion).padStart(3, " ")
       const a = (fmtDMY(f.anteultima) || "-").padEnd(11, " ")
       const u = (fmtDMY(f.ultima) || "-").padEnd(11, " ")
-      const d = String(f.dias ?? "-").padStart(4, " ")
+      const d = (f.dias === null ? "-" : f.dias === 0 ? "Hoy" : String(f.dias)).padStart(4, " ")
       const e = ESTADO_LABEL[f.estado].padEnd(14, " ")
       const s = f.dias === null ? "Sin datos" : f.dias <= 10 ? "OK" : f.dias <= 20 ? "Precaución" : "CRITICO"
       return `  ${n}  ${a}  ${u}  ${d}  ${e}  ${s}`

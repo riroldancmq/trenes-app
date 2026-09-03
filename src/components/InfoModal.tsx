@@ -55,7 +55,7 @@ export function InfoModal({ abierto, estado, formaciones, onCerrar }: Props) {
                     </div>
                   </div>
                   <span className={`text-sm font-bold ${f.dias !== null && f.dias > 20 ? "text-red-600" : f.dias !== null && f.dias > 10 ? "text-amber-600" : "text-green-600"}`}>
-                    {f.dias === null ? "—" : `${f.dias} días`}
+                    {f.dias === null ? "—" : f.dias === 0 ? "Hoy" : `${f.dias} días`}
                   </span>
                 </li>
               ))}

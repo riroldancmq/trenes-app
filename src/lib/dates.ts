@@ -26,10 +26,10 @@ export function calcularDias(ultima: string | null): number | null {
   const fecha = parseISO(ultima)
   if (!fecha) return null
   const hoy = new Date()
-  hoy.setHours(0, 0, 0, 0)
-  const base = new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate())
-  const diff = hoy.getTime() - base.getTime()
-  const dias = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hoyUTC = new Date(Date.UTC(hoy.getUTCFullYear(), hoy.getUTCMonth(), hoy.getUTCDate()))
+  const base = new Date(Date.UTC(fecha.getUTCFullYear(), fecha.getUTCMonth(), fecha.getUTCDate()))
+  const diff = (hoyUTC.getTime() - base.getTime()) / (1000 * 60 * 60 * 24)
+  const dias = Math.floor(diff)
   return dias >= 0 ? dias : 0
 }
 
