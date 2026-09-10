@@ -24,7 +24,7 @@ export function FloatingNav({
 }: Props) {
   return (
     <nav
-      className={`fixed bottom-3 left-1/2 -translate-x-1/2 z-50 w-[92%] rounded-2xl border border-gray-200 bg-white backdrop-blur-lg shadow-lg pb-[env(safe-area-inset-bottom)] ${className}`}
+      className={`fixed bottom-3 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-4xl rounded-2xl border border-gray-200 bg-white backdrop-blur-lg shadow-lg pb-[env(safe-area-inset-bottom)] ${className}`}
     >
       <div className="flex items-center justify-around h-14 px-2">
         {items.map((item) => {
