@@ -1,39 +1,40 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { supabase } from "../lib/supabase"
-import { calcularDias, ordenarPorCriticidad, semaforo } from "../lib/dates"
-import type { CamposEditables, Formacion, FormacionDB } from "../lib/types"
+import { calcularDias } from "../lib/dates"
+import { ordenarPorCriticidadLoco, semaforoLoco } from "../lib/datesLocomotoras"
+import type { CamposEditablesLocomotora, Locomotora, LocomotoraDB } from "../lib/typesLocomotoras"
 import { addOp, getOps, removeOp } from "../lib/offline"
 
-function derivar(db: FormacionDB[]): Formacion[] {
-  return ordenarPorCriticidad(
-    db.map((f) => {
-      const dias = calcularDias(f.ultima)
-      return { ...f, dias, sem: semaforo(dias).sem }
+function derivar(db: LocomotoraDB[]): Locomotora[] {
+  return ordenarPorCriticidadLoco(
+    db.map((l) => {
+      const dias = calcularDias(l.ultima)
+      return { ...l, dias, sem: semaforoLoco(dias) }
     }),
   )
 }
 
-export function useFormaciones() {
-  const [formaciones, setFormaciones] = useState<Formacion[]>([])
+export function useLocomotoras() {
+  const [locomotoras, setLocomotoras] = useState<Locomotora[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [pendientes, setPendientes] = useState(0)
   const [online, setOnline] = useState(navigator.onLine)
-  const formacionesRef = useRef<Formacion[]>([])
+  const locomotorasRef = useRef<Locomotora[]>([])
 
-  formacionesRef.current = formaciones
+  locomotorasRef.current = locomotoras
 
   const refreshPendientes = useCallback(async () => {
-    const ops = await getOps("formaciones")
+    const ops = await getOps("locomotoras")
     setPendientes(ops.length)
   }, [])
 
   const syncPending = useCallback(async () => {
-    const ops = await getOps("formaciones")
+    const ops = await getOps("locomotoras")
     if (ops.length === 0) return
     for (const op of ops) {
       const { error } = await supabase
-        .from("formaciones")
+        .from("locomotoras")
         .update(op.campos)
         .eq("id", op.registroId)
       if (error) continue
@@ -45,13 +46,13 @@ export function useFormaciones() {
   const load = useCallback(async () => {
     setLoading(true)
     const { data, error } = await supabase
-      .from("formaciones")
+      .from("locomotoras")
       .select("*")
-      .order("formacion")
+      .order("ultima")
     if (error) {
       setError(error.message)
     } else if (data) {
-      setFormaciones(derivar(data as FormacionDB[]))
+      setLocomotoras(derivar(data as LocomotoraDB[]))
     }
     setLoading(false)
   }, [])
@@ -69,24 +70,24 @@ export function useFormaciones() {
     window.addEventListener("offline", onOffline)
 
     const channel = supabase
-      .channel("realtime-formaciones")
+      .channel("realtime-locomotoras")
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "formaciones" },
+        { event: "*", schema: "public", table: "locomotoras" },
         (payload) => {
-          const nuevo = payload.new as FormacionDB | null
-          const viejo = payload.old as FormacionDB | null
-          setFormaciones((prev) => {
+          const nuevo = payload.new as LocomotoraDB | null
+          const viejo = payload.old as LocomotoraDB | null
+          setLocomotoras((prev) => {
             if (payload.eventType === "DELETE" || !nuevo) {
               if (!viejo) return prev
-              return prev.filter((f) => f.id !== viejo.id)
+              return prev.filter((l) => l.id !== viejo.id)
             }
-            const existe = prev.some((f) => f.id === nuevo.id)
+            const existe = prev.some((l) => l.id === nuevo.id)
             const act = derivar([nuevo])
             if (existe) {
-              return prev.map((f) => (f.id === nuevo.id ? act[0] : f))
+              return prev.map((l) => (l.id === nuevo.id ? act[0] : l))
             }
-            return ordenarPorCriticidad([...prev, act[0]])
+            return ordenarPorCriticidadLoco([...prev, act[0]])
           })
         },
       )
@@ -101,18 +102,18 @@ export function useFormaciones() {
   }, [])
 
   const aplicarCambio = useCallback(
-    async (formacionId: number, campos: Partial<CamposEditables>) => {
-      setFormaciones((prev) =>
-        ordenarPorCriticidad(
-          prev.map((f) => {
-            if (f.id !== formacionId) return f
-            const mezcla = { ...f, ...campos } as FormacionDB
+    async (locomotoraId: number, campos: Partial<CamposEditablesLocomotora>) => {
+      setLocomotoras((prev) =>
+        ordenarPorCriticidadLoco(
+          prev.map((l) => {
+            if (l.id !== locomotoraId) return l
+            const mezcla = { ...l, ...campos } as LocomotoraDB
             const dias = calcularDias(mezcla.ultima)
-            return { ...mezcla, dias, sem: semaforo(dias).sem }
+            return { ...mezcla, dias, sem: semaforoLoco(dias) }
           }),
         ),
       )
-      await addOp("formaciones", formacionId, campos)
+      await addOp("locomotoras", locomotoraId, campos)
       await refreshPendientes()
       if (navigator.onLine) syncPending()
     },
@@ -120,7 +121,7 @@ export function useFormaciones() {
   )
 
   return {
-    formaciones,
+    locomotoras,
     loading,
     error,
     online,

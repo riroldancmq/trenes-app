@@ -1,9 +1,13 @@
 import type { CamposEditables } from "./types"
+import type { CamposEditablesLocomotora } from "./typesLocomotoras"
+
+export type TablaOp = "formaciones" | "locomotoras"
 
 export interface PendingOp {
   id: string
-  formacionId: number
-  campos: Partial<CamposEditables>
+  tabla: TablaOp
+  registroId: number
+  campos: Partial<CamposEditables> | Partial<CamposEditablesLocomotora>
   ts: number
 }
 
@@ -37,14 +41,20 @@ async function withStore<T>(
   })
 }
 
-export async function addOp(op: Omit<PendingOp, "id" | "ts">): Promise<void> {
-  const full: PendingOp = { ...op, id: crypto.randomUUID(), ts: Date.now() }
+export async function addOp(
+  tabla: TablaOp,
+  registroId: number,
+  campos: Partial<CamposEditables> | Partial<CamposEditablesLocomotora>,
+): Promise<void> {
+  const full: PendingOp = { tabla, registroId, campos, id: crypto.randomUUID(), ts: Date.now() }
   await withStore("readwrite", (s) => s.put(full))
 }
 
-export async function getOps(): Promise<PendingOp[]> {
+export async function getOps(tabla?: TablaOp): Promise<PendingOp[]> {
   const all = await withStore<PendingOp[]>("readonly", (s) => s.getAll())
-  return all.sort((a, b) => a.ts - b.ts)
+  return all
+    .filter((o) => (tabla ? o.tabla === tabla : true))
+    .sort((a, b) => a.ts - b.ts)
 }
 
 export async function removeOp(id: string): Promise<void> {
