@@ -38,7 +38,7 @@ export function AuthView({ onIniciarSesion, onEntrarComoVisitante }: Props) {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white overflow-hidden mb-4 shadow">
             <img src="/icons/icon-192.png" alt="Trenes" className="w-12 h-12 rounded-xl" />
           </div>
-          <h1 className="text-xl font-bold text-slate-800">Registro de demoras</h1>
+          <h1 className="text-xl font-bold text-slate-800">Planificación y control de servicios</h1>
           <p className="text-slate-500 text-sm">Lavado de formaciones</p>
         </div>
 

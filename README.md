@@ -1,9 +1,9 @@
-# Trenes App — Registro de lavado de formaciones y locomotoras
+# Trenes App — Planificación y control de servicios
 
-Webapp móvil (PWA) para registrar demoras de lavado de formaciones y de locomotoras. React + Vite + Tailwind, backend en Supabase (PostgreSQL + Auth + Realtime), desplegado en Vercel.
+Webapp móvil (PWA) para la planificación y control de servicios de lavado de formaciones y de locomotoras. React + Vite + Tailwind, backend en Supabase (PostgreSQL + Auth + Realtime), desplegado en Vercel.
 
 Dos secciones navegables desde el **menú flotante** inferior:
-- **Formaciones**: registro de demoras de lavado de formaciones.
+- **Formaciones**: planificación y control de servicios de lavado de formaciones.
 - **Locomotoras**: días sin lavado de las locomotoras, con su propio semáforo por criticidad.
 
 - **Admin**: edita fechas, estado y descripción en ambas secciones. Login con **usuario + contraseña** (no hay registro público).
@@ -132,7 +132,9 @@ src/
 public/
   trenes.jpg                Imagen de fondo (redimensionada desde
                             San-Martin-Trenes.jpg)
-  icons/                    Iconos de la PWA (generados desde icon.png)
+  favicon.png               Favicon (generado desde icon_PyC.jpeg)
+  icons/                    Iconos de la PWA (generados desde icon_PyC.jpeg)
+icon_PyC.jpeg               Fuente del icono de la app (logo de la marca)
 scripts/
   sync-backup.mjs           Sincroniza formaciones desde backuotrenes.json
                             (usa SUPABASE_SERVICE_ROLE_KEY)

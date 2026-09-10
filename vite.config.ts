@@ -9,11 +9,11 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'icons/icon.svg'],
+      includeAssets: ['favicon.png', 'icons/icon.svg'],
       manifest: {
-        name: 'Trenes - Registro de demoras',
+        name: 'Planificación y control de servicios',
         short_name: 'Trenes',
-        description: 'Registro de demoras lavado de formaciones',
+        description: 'Planificación y control de servicios',
         theme_color: '#0a0e1a',
         background_color: '#0a0e1a',
         display: 'standalone',

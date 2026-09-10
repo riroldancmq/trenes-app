@@ -34,8 +34,8 @@ export function LocomotoraPage({ datos, esEditor, esVisitante, usuario, rol, aho
               <img src="/icons/icon-192.png" alt="Trenes" className="w-9 h-9 rounded-lg" />
             </span>
             <div>
-              <h1 className="font-bold leading-tight text-[15px]">Lavado de locomotores</h1>
-              <p className="text-white/80 text-xs">Días sin lavado</p>
+              <h1 className="font-bold leading-tight text-[15px]">Planificación y control de servicios</h1>
+              <p className="text-white/80 text-xs">Lavado de locomotoras</p>
             </div>
           </div>
           <button
