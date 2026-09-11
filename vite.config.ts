@@ -12,7 +12,7 @@ export default defineConfig({
       includeAssets: ['favicon.png', 'icons/icon.svg'],
       manifest: {
         name: 'Planificación y control de servicios',
-        short_name: 'Trenes',
+        short_name: 'AACC-LSM',
         description: 'Planificación y control de servicios',
         theme_color: '#0a0e1a',
         background_color: '#0a0e1a',
